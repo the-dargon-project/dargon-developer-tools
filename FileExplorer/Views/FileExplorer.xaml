@@ -1,0 +1,42 @@
+﻿<Window x:Class="Dargon.League.FileExplorer.FileExplorer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dargon.League.FileExplorer"
+        xmlns:views="clr-namespace:Dargon.League.FileExplorer.Views"
+        xmlns:viewsHelpers="clr-namespace:Dargon.League.FileExplorer.Views.Helpers"
+        mc:Ignorable="d"
+        Title="Dargon Riot File Explorer" Height="720" Width="1280">
+   <Window.Resources>
+      <viewsHelpers:TreeViewSorter x:Key="TreeViewSorter" />
+   </Window.Resources>
+   
+   <Grid Background="Red">
+      <TreeView IsEnabled="True" ItemsSource="{Binding}" >
+         <TreeView.ItemContainerStyle>
+            <Style TargetType="{x:Type TreeViewItem}">
+               <Setter Property="FontWeight" Value="Normal" />
+               <Setter Property="ContextMenu">
+                  <Setter.Value>
+                     <ContextMenu>
+                        <MenuItem Header="Dump" Command="{Binding DumpCommand}"/>
+                     </ContextMenu>
+                  </Setter.Value>
+               </Setter>
+               <Style.Triggers>
+                  <Trigger Property="IsSelected" Value="True">
+                     <Setter Property="FontWeight" Value="Bold" />
+                  </Trigger>
+               </Style.Triggers>
+
+            </Style>
+         </TreeView.ItemContainerStyle>
+         <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children, Converter={StaticResource TreeViewSorter}}">
+               <views:NodeView />
+            </HierarchicalDataTemplate>
+         </TreeView.ItemTemplate>
+      </TreeView>
+   </Grid>
+</Window>
